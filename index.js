@@ -572,7 +572,7 @@ function runVideos(el){
 
     el.find("video").each(function(){
         const video = this;  
-        console.log(video);
+        console.log(this);
 
         $(this).on("click", function() { 
             if(!$(this).attr("swiperVideo")){
