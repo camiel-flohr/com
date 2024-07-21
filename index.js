@@ -557,9 +557,11 @@ function loadHash(){
 function runVideos(el){
 
     // Create observer to check if video is in view
-    const observer = new IntersectionObserver((entries) => {
+    const observer = new IntersectionObserver((entries) => { 
         entries.forEach((entry) => {
             if(entry.isIntersecting) {
+                console.log(entry);
+                entry.load();
                 entry.target.play();
             } else {
                 entry.target.pause();
@@ -572,7 +574,6 @@ function runVideos(el){
 
     el.find("video").each(function(){
         const video = this;  
-        console.log(video);
 
         $(this).on("click", function() { 
             if(!$(this).attr("swiperVideo")){
@@ -598,7 +599,6 @@ function runVideos(el){
             }
         });
 
-        // Videos
         observer.observe(video);
     });
 
