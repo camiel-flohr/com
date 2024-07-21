@@ -557,11 +557,10 @@ function loadHash(){
 function runVideos(el){
 
     // Create observer to check if video is in view
-    const observer = new IntersectionObserver((entries) => { 
+    const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
             if(entry.isIntersecting) {
-                console.log(entry.target.data-src);
-                entry.target.load();
+                console.log(entry.target.src);
                 entry.target.play();
             } else {
                 entry.target.pause();
@@ -574,6 +573,8 @@ function runVideos(el){
 
     el.find("video").each(function(){
         const video = this;  
+
+        var isPlaying = video.currentTime > 0 && !video.paused && !video.ended && video.readyState > video.HAVE_CURRENT_DATA;
 
         $(this).on("click", function() { 
             if(!$(this).attr("swiperVideo")){
@@ -599,7 +600,8 @@ function runVideos(el){
             }
         });
 
-        observer.observe(video);
+        // Videos
+        // observer.observe(video);
     });
 
     if(el.find("iframe")){
