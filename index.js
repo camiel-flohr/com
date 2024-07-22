@@ -556,15 +556,12 @@ function loadHash(){
  */
 function runVideos(el){
 
-    console.log("run videos:");
-    console.log(el);
-
     // Create observer to check if video is in view
     const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
             console.log("video is playing: " + getIsPlaying(entry.target));
             if(entry.isIntersecting && !getIsPlaying(entry.target)) {
-                console.log(entry.target.src);
+                // console.log(entry.target.src);
                 // entry.target.play();
                 playVideo(entry.target);
             } else {
@@ -582,12 +579,12 @@ function runVideos(el){
 
         if (videoPromise !== undefined) {
             videoPromise.then(_ => {
-                console.log("video: " +this);
+                // console.log("video: " +this);
                 this.pause();
                 observer.observe(this);
             })
             .catch(error => {
-                console.log("videoPromise error: " +error);
+                // console.log("videoPromise error: " +error);
                 // this.pause();
                 // observer.observe(this);
                 videoPromise.calledAgain = true;
