@@ -559,22 +559,38 @@ function runVideos(el){
     // Create observer to check if video is in view
     const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
-            if(entry.isIntersecting) {
-                console.log(entry.target);
-                entry.target.play();
+            console.log("video is playing: " + getIsPlaying(entry.target));
+            if(entry.isIntersecting && !getIsPlaying(entry.target)) {
+                console.log(entry.target.src);
+                // entry.target.play();
+                playVideo(entry.target);
             } else {
                 entry.target.pause();
             }
         });
     },
-    {   
+    {    
         threshold: 0.6 // Default is 0 (element must be totally off screen)
     });
 
     el.find("video").each(function(){
-        const video = this;  
 
-        var isPlaying = video.currentTime > 0 && !video.paused && !video.ended && video.readyState > video.HAVE_CURRENT_DATA;
+        const videoPromise = this.play();
+
+        if (videoPromise !== undefined) {
+            videoPromise.then(_ => {
+                console.log("video: " +this);
+                this.pause();
+                observer.observe(this);
+            })
+            .catch(error => {
+                // Auto-play was prevented
+                // Show paused UI.
+                console.log("videoPromise error: " +error);
+                this.pause();
+                observer.observe(this);
+            });
+        }
 
         $(this).on("click", function() { 
             if(!$(this).attr("swiperVideo")){
@@ -585,6 +601,7 @@ function runVideos(el){
                 this.paused ? this.play() : this.pause();
             }
         });
+
         $(this).on("mouseenter", function(){
             if(isTouchDevice() === false){
                 cursor.open();
@@ -599,9 +616,6 @@ function runVideos(el){
                 cursor.close();
             }
         });
-
-        // Videos
-        observer.observe(video);
     });
 
     if(el.find("iframe")){
@@ -611,6 +625,22 @@ function runVideos(el){
         el.find("iframe").on("mouseleave", function(){
             cursor.close();
         });
+    }
+}
+
+function getIsPlaying(video){
+    if(video.currentTime > 0 && !video.paused && !video.ended && video.readyState > video.HAVE_CURRENT_DATA){
+        return true;
+    } else {
+        return false;
+    }
+}
+
+async function playVideo(video){
+    try {
+        await video.play();
+    } catch (error) {
+        console.log("play video error: " +error);
     }
 }
 
