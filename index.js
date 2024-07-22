@@ -556,6 +556,9 @@ function loadHash(){
  */
 function runVideos(el){
 
+    console.log("run videos:");
+    console.log(el);
+
     // Create observer to check if video is in view
     const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
