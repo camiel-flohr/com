@@ -584,11 +584,10 @@ function runVideos(el){
                 observer.observe(this);
             })
             .catch(error => {
-                // Auto-play was prevented
-                // Show paused UI.
                 console.log("videoPromise error: " +error);
-                this.pause();
-                observer.observe(this);
+                // this.pause();
+                // observer.observe(this);
+                videoPromise.calledAgain = true;
             });
         }
 
