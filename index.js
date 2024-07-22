@@ -601,7 +601,7 @@ function runVideos(el){
         });
 
         // Videos
-        // observer.observe(video);
+        observer.observe(video);
     });
 
     if(el.find("iframe")){
