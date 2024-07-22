@@ -560,7 +560,7 @@ function runVideos(el){
     const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
             if(entry.isIntersecting) {
-                console.log(entry.target.src);
+                console.log(entry.target);
                 entry.target.play();
             } else {
                 entry.target.pause();
