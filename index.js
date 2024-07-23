@@ -1,6 +1,5 @@
 // Fetch Html Structure
 function fetchStructure(url, container, index){
-    // console.log("fetch structure");
     let urlFetch = cmsItemURL + url;
 
     fetch(urlFetch, {
@@ -81,7 +80,6 @@ function fetchHtml(index){
     let urlFetch = cmsItemURL + url;
 
     if(!loading) {
-        // console.log("fetch content:" + urlFetch);
         loading = true;
 
         fetch(urlFetch, {
@@ -112,7 +110,6 @@ function fetchHtml(index){
 
                 // Check if max number of loads is reached
                 if(getNumLoaded() > maxLoad){ 
-                    // console.log("max reached: " + getNumLoaded());
 
                     let farthestTrueIndex = findFarthestTrueIndex(index);
                     removeHtml(farthestTrueIndex); // Remove item from the DOM
@@ -166,7 +163,6 @@ function fetchHtml(index){
                 runVideos($(container));
                 runImageTl(index);
                 runCopyTl(index);
-                lazyLoadInstance.update();
 
                 // Image load
                 if(firstLoad === 0){
@@ -179,8 +175,6 @@ function fetchHtml(index){
                     imgLoad.on("progress", function(instance, image) {
                         var result = image.isLoaded ? "loaded" : "broken";
                         let progress = instance.progressedCount / numImages;
-
-                        // console.log("loading images, progress: " + progress);
 
                         document.querySelector(".loader_percent").textContent = `${Math.round(progress*100)}`;
                         gsap.to(".loader_bar", {
@@ -278,7 +272,6 @@ function initIntro(){
         parent.replaceChild(wrapper, el);
         wrapper.appendChild(el);
     });
-    
     gsap.set(".loader_percent", {opacity: 1});
     gsap.set(".headline_intro", {yPercent: 100});
 }
@@ -286,10 +279,6 @@ function initIntro(){
 function onImagesLoaded(container, url, index) {
 
     const end = performance.now();
-    // console.log(
-    //   `Time taken to load ${numImages} images: ${Math.round(end - start)}ms`
-    // );  
-    
     loading = false;
 
     if(firstLoad === 0) {
@@ -447,7 +436,7 @@ function runImageTl(index){
     let name = getSlug(index);
 
     $(el).find(".image_container").each(function(){
-        gsap.set(this, {opacity: 0.5, y: 200});
+        gsap.set(this, {opacity: 0.5, y: 200, scale: 0.9});
         
         gsap.to(this, {
             opacity: 1,
@@ -521,10 +510,8 @@ function isEmpty(index) {
     let elContent = el.querySelector(".page_content");
 
     if(elContent.innerHTML === ""){ 
-        // console.log("id element is empty");
         return true;
     } else {
-        // console.log("id element is not empty");
         return false;
     }
 }
@@ -533,7 +520,6 @@ function getElement(index) {
     let curId = getSlug(index);
     let el = document.getElementById(curId);
     el = el.querySelector(".page_content");   
-    // console.log("element is: " + el);
 
     return el;
 }
@@ -857,7 +843,6 @@ function linkCMSdata() {
                     const url = $(this).find(".slug")[0].innerText;
                     const index = $(this).index();
 
-                    // console.log("register menu click, index is empty is: " + isEmpty(index));
                     ScrollTrigger.refresh();
 
                     if(isEmpty(index)){
@@ -930,9 +915,6 @@ function navBarClick(navEl = ""){
     }
     navElBtn.on("click", function () {
         if(toggle === 0) {   
-            // menuLenis = new RunLenis(document.querySelector(".menu_container"));
-            // mainLenis.destroy();
-
             $("body").css("overflow", "hidden");
             $(".menu_container").css("overflow", "auto");
             $(".nav_menu_bg").css("opacity", "1");
@@ -979,9 +961,6 @@ function navBarClick(navEl = ""){
             resumeVideos(videos);
             clearMenuTextTl();
             videos = [];
-
-            // mainLenis = new RunLenis();
-            // menuLenis.destroy();
 
             activeMode = "scroll";
             toggle = 0;
@@ -1031,37 +1010,7 @@ function navBarClick(navEl = ""){
 
 function navBarClose(){
     $(".nav_menu_button").click();
-}
-
-// Lenis smooth scroll  
-class RunLenis {
-    constructor(wrapper = window){
-        this.lenis = new Lenis({
-            wrapper: wrapper,
-            lerp: 0.15,
-            wheelMultiplier: 0.7,
-            infinite: false,
-            gestureOrientation: "vertical",
-            normalizeWheel: false,
-            smoothTouch: false
-        });
-        const l = this;
-        const raf = function(time) {
-            l.lenis.raf(time);
-            requestAnimationFrame(raf);
-        }
-        requestAnimationFrame(raf);
-    }
-    stop(){
-        this.lenis.stop();
-    }
-    start(){
-        this.lenis.start();
-    }
-    destroy(){
-        this.lenis.destroy();
-    }
-}    
+} 
 
 /**
  * Add item numbers before list in order
@@ -1442,13 +1391,6 @@ const mouseMaxSize = 120;
 const mouseMinSize = 16;
 let cursor;
 
-// Smooth scroll
-let mainLenis;
-let menuLenis;
-
-// Lazy Load
-var lazyLoadInstance;
-
 window.addEventListener("DOMContentLoaded", (event) => {
     gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
@@ -1472,9 +1414,6 @@ function init() {
     } else {
         jQuery('.cursor').remove();  
     }
-    // mainLenis = new RunLenis();
-
-    lazyLoadInstance = new LazyLoad();
 }
 
 // Update on window resize
