@@ -1150,29 +1150,6 @@ function reverseSplit(){
 // GSAP animations Menu
 function runMenuTextTl(){
 
-    // Animations
-    // gsap.set(".menu_container p", {autoAlpha: 0.5, y: 100});
-    // gsap.set(".menu_container h2", {autoAlpha: 0.5, y: 200});
-    // gsap.set(".about_inner_list .collection_item", {autoAlpha: 0, y: 100});
-    // gsap.set(".about_block a", {autoAlpha: 0.5, y: 100});
-
-    // ScrollTrigger.batch([".menu_container p", ".menu_container h2", ".about_inner_list .collection_item", ".about_block a"], {
-    //     scroller: ".menu_container",
-    //     start: "top bottom",
-    //     group: "menu",
-    //     onEnter: batch => gsap.to(batch, {
-    //         autoAlpha: 1,
-    //         y: 0, 
-    //         duration: 0.5,
-    //         // ease: "expo.out",
-    //         stagger: {each: 0.02},
-    //     }),
-    //     onLeaveBack: batch => gsap.to(batch, {
-    //         autoAlpha: 1,
-    //         y: 0, 
-    //     }),
-    // });
-
     // Animation top links
     const staggerLinks = document.querySelectorAll("[stagger-link]");
 
