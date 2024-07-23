@@ -322,7 +322,7 @@ function onImagesLoaded(container, url, index) {
             ease: "expo.inOut",
         }, "1");
         loaderTl.to(".intro", {
-            height: "85vh",
+            height: "85svh",
             duration: 1.2,
             ease: "expo.inOut",
             onComplete: () => {
