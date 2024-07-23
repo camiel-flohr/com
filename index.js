@@ -1,5 +1,6 @@
 // Fetch Html Structure
 function fetchStructure(url, container, index){
+    // console.log("fetch structure");
     let urlFetch = cmsItemURL + url;
 
     fetch(urlFetch, {
@@ -80,6 +81,7 @@ function fetchHtml(index){
     let urlFetch = cmsItemURL + url;
 
     if(!loading) {
+        // console.log("fetch content:" + urlFetch);
         loading = true;
 
         fetch(urlFetch, {
@@ -110,6 +112,7 @@ function fetchHtml(index){
 
                 // Check if max number of loads is reached
                 if(getNumLoaded() > maxLoad){ 
+                    // console.log("max reached: " + getNumLoaded());
 
                     let farthestTrueIndex = findFarthestTrueIndex(index);
                     removeHtml(farthestTrueIndex); // Remove item from the DOM
@@ -124,6 +127,27 @@ function fetchHtml(index){
                     let img = div.querySelector("img");
                     
                     if(img !== null) {
+
+                        // // Get and set low res bg image
+                        // let str = img.getAttribute("src").toString();
+                        // let newStr = str.split('/');
+                        // let newStrEnd = newStr[newStr.length-1].split("_");
+                        // newStrEnd.shift();
+                        // let newStrEndSplit = newStrEnd.join("_").split(".");
+                        // let newStrEndComb = newStrEndSplit[0] + "_small_blurred.jpg";
+
+                        // let bgImg = aws_base_link + url + "/images/small_blurred/" + newStrEndComb;
+                        // div.style.cssText = "background-image: url(" +bgImg + ");" +
+                        //                     "background-repeat: no-repeat;" +
+                        //                     "background-size: cover;" +
+                        //                     "background-position: 50%;";
+                        
+                        // newStrEndComb = null;
+                        // newStrEndSplit = null;
+                        // newStrEnd = null;
+                        // newStr = null;
+                        // str = null;
+
                         img.style.opacity = 0;
 
                         function loaded(){
@@ -142,6 +166,7 @@ function fetchHtml(index){
                 runVideos($(container));
                 runImageTl(index);
                 runCopyTl(index);
+                lazyLoadInstance.update();
 
                 // Image load
                 if(firstLoad === 0){
@@ -154,6 +179,8 @@ function fetchHtml(index){
                     imgLoad.on("progress", function(instance, image) {
                         var result = image.isLoaded ? "loaded" : "broken";
                         let progress = instance.progressedCount / numImages;
+
+                        // console.log("loading images, progress: " + progress);
 
                         document.querySelector(".loader_percent").textContent = `${Math.round(progress*100)}`;
                         gsap.to(".loader_bar", {
@@ -259,7 +286,10 @@ function initIntro(){
 function onImagesLoaded(container, url, index) {
 
     const end = performance.now();
-
+    // console.log(
+    //   `Time taken to load ${numImages} images: ${Math.round(end - start)}ms`
+    // );  
+    
     loading = false;
 
     if(firstLoad === 0) {
@@ -491,8 +521,10 @@ function isEmpty(index) {
     let elContent = el.querySelector(".page_content");
 
     if(elContent.innerHTML === ""){ 
+        // console.log("id element is empty");
         return true;
     } else {
+        // console.log("id element is not empty");
         return false;
     }
 }
@@ -501,6 +533,7 @@ function getElement(index) {
     let curId = getSlug(index);
     let el = document.getElementById(curId);
     el = el.querySelector(".page_content");   
+    // console.log("element is: " + el);
 
     return el;
 }
@@ -824,6 +857,7 @@ function linkCMSdata() {
                     const url = $(this).find(".slug")[0].innerText;
                     const index = $(this).index();
 
+                    // console.log("register menu click, index is empty is: " + isEmpty(index));
                     ScrollTrigger.refresh();
 
                     if(isEmpty(index)){
@@ -1391,7 +1425,7 @@ let loading = false;
 const mobileBreakpoint = 480;
 
 // Menu
-let menuLoaded = 0 
+let menuLoaded = 0  
 
 // Text
 let splitLinks;
@@ -1411,6 +1445,9 @@ let cursor;
 // Smooth scroll
 let mainLenis;
 let menuLenis;
+
+// Lazy Load
+var lazyLoadInstance;
 
 window.addEventListener("DOMContentLoaded", (event) => {
     gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
@@ -1435,6 +1472,9 @@ function init() {
     } else {
         jQuery('.cursor').remove();  
     }
+    // mainLenis = new RunLenis();
+
+    lazyLoadInstance = new LazyLoad();
 }
 
 // Update on window resize
