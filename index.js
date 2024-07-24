@@ -125,26 +125,6 @@ function fetchHtml(index){
                     
                     if(img !== null) {
 
-                        // // Get and set low res bg image
-                        // let str = img.getAttribute("src").toString();
-                        // let newStr = str.split('/');
-                        // let newStrEnd = newStr[newStr.length-1].split("_");
-                        // newStrEnd.shift();
-                        // let newStrEndSplit = newStrEnd.join("_").split(".");
-                        // let newStrEndComb = newStrEndSplit[0] + "_small_blurred.jpg";
-
-                        // let bgImg = aws_base_link + url + "/images/small_blurred/" + newStrEndComb;
-                        // div.style.cssText = "background-image: url(" +bgImg + ");" +
-                        //                     "background-repeat: no-repeat;" +
-                        //                     "background-size: cover;" +
-                        //                     "background-position: 50%;";
-                        
-                        // newStrEndComb = null;
-                        // newStrEndSplit = null;
-                        // newStrEnd = null;
-                        // newStr = null;
-                        // str = null;
-
                         img.style.opacity = 0;
 
                         function loaded(){
@@ -1151,29 +1131,6 @@ function reverseSplit(){
 function runMenuTextTl(){
 
     // Animations
-    // gsap.set(".menu_container p", {autoAlpha: 0.5, y: 100});
-    // gsap.set(".menu_container h2", {autoAlpha: 0.5, y: 200});
-    // gsap.set(".about_inner_list .collection_item", {autoAlpha: 0, y: 100});
-    // gsap.set(".about_block a", {autoAlpha: 0.5, y: 100});
-
-    // ScrollTrigger.batch([".menu_container p", ".menu_container h2", ".about_inner_list .collection_item", ".about_block a"], {
-    //     scroller: ".menu_container",
-    //     start: "top bottom",
-    //     group: "menu",
-    //     onEnter: batch => gsap.to(batch, {
-    //         autoAlpha: 1,
-    //         y: 0, 
-    //         duration: 0.5,
-    //         // ease: "expo.out",
-    //         stagger: {each: 0.02},
-    //     }),
-    //     onLeaveBack: batch => gsap.to(batch, {
-    //         autoAlpha: 1,
-    //         y: 0, 
-    //     }),
-    // });
-
-    // Animation top links
     const staggerLinks = document.querySelectorAll("[stagger-link]");
 
     let linkTl = gsap.timeline({
@@ -1387,7 +1344,6 @@ let splitH2;
 let contentItems = [];
 
 const base_link = "https://camiels-test-project-d801-c91712ef7ad0e.webflow.io/#"
-// const aws_base_link = "https://camielflohr-hosting.s3.us-west-1.amazonaws.com/"
 
 //Mouse cursor
 const mouseMaxSize = 120;
