@@ -304,9 +304,9 @@ function onImagesLoaded(container, url, index) {
             yPercent: 0,
             ease: "expo.out",
             duration: 0.8,
-            stagger: {each: 0.1},
+            stagger: {each: 0.0},
             // delay: 0.2
-        }, "0.2");
+        }, "0.1");
         loaderTl.to(".loader_wrapper", {
             height: 4,
             duration: 1,
@@ -1150,25 +1150,48 @@ function reverseSplit(){
 // GSAP animations Menu
 function runMenuTextTl(){
 
+    // Animations
+    // gsap.set(".menu_container p", {autoAlpha: 0.5, y: 100});
+    // gsap.set(".menu_container h2", {autoAlpha: 0.5, y: 200});
+    // gsap.set(".about_inner_list .collection_item", {autoAlpha: 0, y: 100});
+    // gsap.set(".about_block a", {autoAlpha: 0.5, y: 100});
+
+    // ScrollTrigger.batch([".menu_container p", ".menu_container h2", ".about_inner_list .collection_item", ".about_block a"], {
+    //     scroller: ".menu_container",
+    //     start: "top bottom",
+    //     group: "menu",
+    //     onEnter: batch => gsap.to(batch, {
+    //         autoAlpha: 1,
+    //         y: 0, 
+    //         duration: 0.5,
+    //         // ease: "expo.out",
+    //         stagger: {each: 0.02},
+    //     }),
+    //     onLeaveBack: batch => gsap.to(batch, {
+    //         autoAlpha: 1,
+    //         y: 0, 
+    //     }),
+    // });
+
     // Animation top links
     const staggerLinks = document.querySelectorAll("[stagger-link]");
 
-    // let linkTl = gsap.timeline({
-    //     scrollTrigger: {
-    //         scroller: ".menu_container",
-    //         trigger: staggerLinks,
-    //         group: "menu",
-    //         start: "top bottom",
-    //         end: "bottom bottom",
-    //     },
-    // });
-    // linkTl.from([staggerLinks, ".collection_block .collection_item"], {
-    //     opacity: 0,
-    //     yPercent: 115,
-    //     duration: 0.8,
-    //     ease: "expo.out",
-    //     stagger: { each:0.05 },
-    // }, "<");
+    let linkTl = gsap.timeline({
+    }); 
+    gsap.from(".work_title", {
+        opacity: 0,
+        yPercent: 115,
+        duration: 0.8,
+        ease: "expo.out",
+        delay: 0.05
+    }); 
+    linkTl.from([staggerLinks, ".collection_block .collection_item"], {
+        opacity: 0,
+        yPercent: 115,
+        duration: 0.8,
+        ease: "expo.out",
+        stagger: { each:0.05 },
+    }, "-0.5");
 
     // Top links
     staggerLinks.forEach((link) => {
@@ -1239,7 +1262,7 @@ function createSwiper(){
     $(".slider-main-component").each(function(index) {
 
         let marginBetween = '50%';
-        let marginBetweenMobile = '50%';
+        let marginBetweenMobile = '25%';
         let loopMode = false;
 	    $(".swiper").each(function (index) {
             if ($(this).attr("loop-mode") === "true") {
@@ -1271,35 +1294,38 @@ function createSwiper(){
             },              
             slideToClickedSlide: true,
             followFinger: true,
-            // grabCursor: true,    
+            grabCursor: true,    
             
-            breakpoints: {       
-                480: { // when window width is >= 320px
-                    spaceBetween: marginBetweenMobile
+            breakpoints: {
+                // when window width is >= 320px
+                320: {
+                    slidesPerView: 'auto',
+                    spaceBetween: 20
                 },
-                768: { // when window width is >= 480px
-                    spaceBetween: marginBetweenMobile
+                // when window width is >= 480px
+                480: {
+                    slidesPerView: 'auto',
+                    spaceBetween: 30
                 },
-                991: { // when window width is >= 640px
+                // when window width is >= 640px
+                640: {
+                    slidesPerView: 'auto',
                     spaceBetween: marginBetween
                 }
             },
-  
-            // Navigation arrows
-            navigation: {
-                nextEl: $(this).find(".swiper-next")[0],
-                prevEl: $(this).find(".swiper-prev")[0],
-                disabledClass: "is-disabled"
-            },
+
             pagination: {
                 el: $(this).find(".swiper-bullet-wrapper")[0],
                 bulletActiveClass: "is-active",
                 bulletClass: "swiper-bullet",
                 bulletElement: "button",    
                 clickable: true,
-                type: "progressbar"
-                // enabled: false
+                // type: "progressbar"
             },
+            // scrollbar: {
+            //     el: $(this).find(".swiper-scrollbar")[0],
+            //     hide: false,
+            // },
             slideActiveClass: "is-active",
             slideDuplicateActiveClass: "is-active"
         });
@@ -1373,6 +1399,10 @@ window.addEventListener("DOMContentLoaded", (event) => {
 
     init();
 });
+
+window.onbeforeunload = function () {
+    window.scrollTo(0, 0);
+}
 
 function init() {
     history.scrollRestoration = "manual";
