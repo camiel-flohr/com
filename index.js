@@ -124,7 +124,6 @@ function fetchHtml(index){
                     let img = div.querySelector("img");
                     
                     if(img !== null) {
-
                         img.style.opacity = 0;
 
                         function loaded(){
@@ -266,7 +265,7 @@ function onImagesLoaded(container, url, index) {
         firstLoad = 1;
     
         // Calculate remaining time to ensure loader is displayed for a minimum time
-        const MIN_TIME = 500;
+        const MIN_TIME = 300;
         const duration = end - start;
         const remainingTime = Math.max(MIN_TIME - duration, 0);
         
@@ -295,12 +294,12 @@ function onImagesLoaded(container, url, index) {
                 // re-enable scrolling
                 gsap.set("body", { overflow: "auto" });
             },
-        });
+        }, "0.4");
         loaderTl.to(".loader_bar", {
             y: 4,
             duration: 1,
             ease: "expo.inOut",
-        }, "1");
+        }, "0.8");
         loaderTl.to(".intro", {
             height: "85svh",
             duration: 1.2,
@@ -308,7 +307,7 @@ function onImagesLoaded(container, url, index) {
             onComplete: () => {
                 ScrollTrigger.refresh();
             }
-        }, "-=1");
+        }, "-=1.3");
     } 
   }
 
@@ -1131,6 +1130,29 @@ function reverseSplit(){
 function runMenuTextTl(){
 
     // Animations
+    // gsap.set(".menu_container p", {autoAlpha: 0.5, y: 100});
+    // gsap.set(".menu_container h2", {autoAlpha: 0.5, y: 200});
+    // gsap.set(".about_inner_list .collection_item", {autoAlpha: 0, y: 100});
+    // gsap.set(".about_block a", {autoAlpha: 0.5, y: 100});
+
+    // ScrollTrigger.batch([".menu_container p", ".menu_container h2", ".about_inner_list .collection_item", ".about_block a"], {
+    //     scroller: ".menu_container",
+    //     start: "top bottom",
+    //     group: "menu",
+    //     onEnter: batch => gsap.to(batch, {
+    //         autoAlpha: 1,
+    //         y: 0, 
+    //         duration: 0.5,
+    //         // ease: "expo.out",
+    //         stagger: {each: 0.02},
+    //     }),
+    //     onLeaveBack: batch => gsap.to(batch, {
+    //         autoAlpha: 1,
+    //         y: 0, 
+    //     }),
+    // });
+
+    // Animation top links
     const staggerLinks = document.querySelectorAll("[stagger-link]");
 
     let linkTl = gsap.timeline({
@@ -1251,7 +1273,7 @@ function createSwiper(){
             },              
             slideToClickedSlide: true,
             followFinger: true,
-            grabCursor: true,    
+            // grabCursor: true,    
             
             breakpoints: {
                 // when window width is >= 320px
